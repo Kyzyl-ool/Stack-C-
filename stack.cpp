@@ -1,50 +1,68 @@
+#include <cassert>
+#include <iostream>
 #include "stack.hpp"
-#include <assert.h>
+//~ #include "stack_utilities.cpp"
 
-const int STACK_INT_POISON = -666666;
+#define STACK_INT_POISON -666666
 
-template <typename Type, ulong Size>
-stack <Type, Size>::stack():
+template <typename T, ulong Size>
+Stack <T, Size>::Stack():
 count(0)
 {
 	for (ulong i = 0; i < Size; i++)
 		data[i] = STACK_INT_POISON;
 }
 
-template <typename Type, ulong Size>
-stack <Type, Size>::~stack()
+template <typename T, ulong Size>
+Stack <T, Size>::~Stack()
 {
-	count = 0;
 	for (ulong i = 0; i < Size; i++)
 		data[i] = STACK_INT_POISON;
 }
 
-template <typename Type, ulong Size>
-template <typename T>
-T stack <Type, Size>::check()
+template <typename T, ulong Size>
+stack_error_code Stack <T, Size>::push(T value)
 {
-	if (count == Size) return STACK_FULL;
-	if (count > Size) return STACK_BIG_COUNT;
-	if (count == 0) return STACK_EMPTY;
-	
+	if (check() == STACK_FULL)
+	{
+		std::cout << "PUSHING TO FULL STACK\n";
+		return STACK_PUSH_TO_FULL_STACK;
+	}
+	data[count++] = value;
 	return STACK_OK;
 }
 
-
-
-template <typename Type, ulong Size>
-stack_error_code stack <Type, Size>::push(Type value)
+template <typename T, ulong Size>
+T Stack <T, Size>::pop()
 {
-	assert(check() == STACK_FULL);
-	data[count++] = value;
-	return check();
-}
-
-template <typename Type, ulong Size>
-Type stack <Type, Size>::pop()
-{
-	assert(check() == STACK_EMPTY);
-	Type result = data[--count--];
+	if (check() == STACK_EMPTY)
+	{
+		std::cout << "POP FROM EMPTY STACK\n";
+		return STACK_INT_POISON;
+	}
+	count--;
+	T result = data[count];
 	data[count] = STACK_INT_POISON;
 	return result;
 }
+
+template <typename T, ulong Size>
+stack_error_code Stack <T, Size>::check()
+{
+	if (count == Size) return STACK_FULL;
+	if (count == 0) return STACK_EMPTY;
+	return STACK_OK;
+}
+
+template <typename T, ulong Size>
+void Stack <T, Size>::dump()
+{
+	//~ std::cout << "Stack dump [" << error_code_to_string(check())  << "]\n";
+	std::cout << "{\n	count = " << count << "\n";
+	std::cout << "	data:\n";
+	for (ulong i = 0; i < Size; i++)
+		if (data[i] != STACK_INT_POISON)
+			std::cout << "	data[" << i << "] = " << data[i] << "\n";
+	std::cout << "}\n\n"; 
+}
+

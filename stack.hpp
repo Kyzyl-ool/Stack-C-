@@ -3,30 +3,24 @@ typedef unsigned long ulong;
 typedef enum stack_error_codes
 {
 	STACK_OK = 0,
-	STACK_BIG_COUNT,
+	STACK_FULL,
+	STACK_EMPTY,
+	STACK_PUSH_TO_FULL_STACK,
 } stack_error_code;
 
-typedef enum stack_status_codes
+template <typename T = int, ulong Size = 128>
+class Stack
 {
-	STACK_EMPTY = 100,
-	STACK_FULL
-} stack_status_code;
-
-template <typename Type, ulong Size>
-class stack
-{
-	private:
-	Type data[Size];
+private:
+	T data[Size];
 	ulong count;
-	template <typename T>
-	T check();
+
+public:	
+	Stack();
+	~Stack();
 	
-	public:
-	stack();
-	~stack();
-	
-	stack_error_code push(Type value);
-	Type pop();
+	stack_error_code push(T value);
+	T pop();
 	void dump();
-	
+	stack_error_code check();
 };

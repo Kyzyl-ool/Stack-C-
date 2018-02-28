@@ -1,9 +1,15 @@
-#include "stack.hpp"
+#include "stack.cpp"
 
 int main()
 {
-	stack <int, 10> s;
+	Stack <int, 5> s;
 	
+	s.push(1);
+	s.push(1);
+	s.push(1);
+	s.push(1);
+	s.push(1);
 	
+	s.dump();
 	return 0;
 }
