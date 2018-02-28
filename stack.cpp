@@ -58,11 +58,11 @@ template <typename T, ulong Size>
 void Stack <T, Size>::dump()
 {
 	//~ std::cout << "Stack dump [" << error_code_to_string(check())  << "]\n";
-	std::cout << "{\n	count = " << count << "\n";
+	std::cout << "{\n	count	= " << count << "\n";
 	std::cout << "	data:\n";
 	for (ulong i = 0; i < Size; i++)
 		if (data[i] != STACK_INT_POISON)
-			std::cout << "	data[" << i << "] = " << data[i] << "\n";
+			std::cout << "	data[" << i << "]	= " << data[i] << "\n";
 	std::cout << "}\n\n"; 
 }
 

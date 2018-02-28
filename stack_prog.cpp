@@ -2,12 +2,8 @@
 
 int main()
 {
-	Stack <int, 5> s;
+	Stack <> s;
 	
-	s.push(1);
-	s.push(1);
-	s.push(1);
-	s.push(1);
 	s.push(1);
 	
 	s.dump();
